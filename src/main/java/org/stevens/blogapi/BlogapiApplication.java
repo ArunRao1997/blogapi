@@ -1,7 +1,6 @@
 package org.stevens.blogapi;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.SpringApplication;
@@ -16,24 +15,27 @@ import org.stevens.blogapi.security.TokenService;
 import org.stevens.blogapi.tokens.UserTokenRepository;
 import org.stevens.blogapi.tokens.UserTokenService;
 import org.stevens.blogapi.users.UsersRepository;
+import org.stevens.blogapi.security.JWTTokenService;
 
 @SpringBootApplication
 public class BlogapiApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(BlogapiApplication.class, args);
     }
 
     private final static String TOKEN_SERVICE_TYPE = "JWT"; //SST OR JWT
+
     @Bean
     @Scope(BeanDefinition.SCOPE_SINGLETON)
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         var mapper = new ModelMapper();
         return mapper;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         /**
          * This is how we migrate from Bcrypt to Argon2
          */
@@ -42,13 +44,14 @@ public class BlogapiApplication {
         return new PasswordEncoder() {
             @Override
             public String encode(CharSequence rawPassword) {
+
                 return argon2Encoder.encode(rawPassword);
             }
 
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                var passMatch = argon2Encoder.matches(rawPassword,encodedPassword);
-                if(!passMatch){
+                var passMatch = argon2Encoder.matches(rawPassword, encodedPassword);
+                if (!passMatch) {
                     passMatch = bcryptEncoder.matches(rawPassword, encodedPassword);
                 }
                 return passMatch;
@@ -61,12 +64,11 @@ public class BlogapiApplication {
     public TokenService tokenService(
             @Autowired UserTokenRepository userTokenRepository,
             @Autowired UsersRepository usersRepository
-    ){
+    ) {
         return switch (TOKEN_SERVICE_TYPE) {
-            case "SST" -> new UserTokenService(userTokenRepository, usersRepository);
             case "JWT" -> new JWTTokenService();
+            case "SST" -> new UserTokenService(userTokenRepository, usersRepository);
             default -> throw new IllegalStateException("Unexpected value: " + TOKEN_SERVICE_TYPE);
         };
     }
-
 }

@@ -33,6 +33,7 @@ public class UsersController {
                 createUserRequestDTO.getPassword()
         );
         var userResponse = modelMapper.map(savedUser, UserResponseDTO.class);
+        userResponse.setToken(tokenService.createAuthToken(savedUser.getUsername()));
         return ResponseEntity.accepted().body(userResponse);
     }
 
@@ -43,6 +44,7 @@ public class UsersController {
                 loginUserRequestDTO.getPassword()
         );
         var userResponse = modelMapper.map(loggedInUser, UserResponseDTO.class);
+        userResponse.setToken(tokenService.createAuthToken(loggedInUser.getUsername()));
         return ResponseEntity.accepted().body(userResponse);
     }
 
