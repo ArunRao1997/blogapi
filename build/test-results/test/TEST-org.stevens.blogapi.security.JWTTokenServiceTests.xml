@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.stevens.blogapi.security.JWTTokenServiceTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-10-03T23:55:05" hostname="MacBook-Pro" time="0.216">
-  <properties/>
-  <testcase name="testTokenVerification()" classname="org.stevens.blogapi.security.JWTTokenServiceTests" time="0.201"/>
-  <testcase name="testCreateAuthToken()" classname="org.stevens.blogapi.security.JWTTokenServiceTests" time="0.014"/>
-  <system-out><![CDATA[eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBcnVuUmFvIiwiaXNzIjoiYmxvZy1hcGkiLCJpYXQiOjE2OTYzNzczMDUsImV4cCI6MTY5NjQ2MzcwNX0.5dTLOcQ8gz1ilbTq_Vd7klBpAen5oL0yc8GtrbCa_A8
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
