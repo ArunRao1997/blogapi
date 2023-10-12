@@ -9,6 +9,7 @@ import java.util.List;
 
 
 @Getter
+@Setter
 @ToString
 @Entity(name = "users")
 @Builder
@@ -27,7 +28,7 @@ public class UsersEntity extends BaseEntity {
 
     @NonNull
     @Column(nullable = false)
-    String password;        // TODO: do not save password in plain text
+    String password;
 
     @Column
     String bio;

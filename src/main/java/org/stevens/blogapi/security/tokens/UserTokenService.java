@@ -37,12 +37,18 @@ public class UserTokenService implements TokenService {
         var savedToken = userTokenRepository.findById(UUID.fromString(token));
         if (savedToken.isPresent()) {
             var user = savedToken.get().getUser();
+
+            // Check if the token is expired
+            Date expirationDate = savedToken.get().getExpiresAt();
+            Date now = new Date();
+            if (expirationDate != null && expirationDate.before(now)) {
+                // Token has expired
+                throw new IllegalStateException("Token has expired");
+            }
             if (user != null) {
                 return user.getUsername();
             }
         }
-        // TODO: generate security exception if token is not present etc
-        // TODO: check expiry as well
-        return null;
+        throw new IllegalStateException("Token not found or validation failed");
     }
 }

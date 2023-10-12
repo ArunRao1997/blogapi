@@ -11,7 +11,6 @@ public interface TokenService {
      * @return
      */
     String createAuthToken(String username);
-
     /**
      * Verifies the given token and returns the username
      *
